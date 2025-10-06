@@ -2,11 +2,6 @@
 
 A **completely free** Retrieval-Augmented Generation (RAG) chatbot that answers questions about The Lord of the Rings using local AI models. No API keys or paid services required!
 
-![LOTR RAG Chatbot](https://img.shields.io/badge/Status-Ready-brightgreen)
-![Next.js](https://img.shields.io/badge/Next.js-15.5.3-black)
-![Ollama](https://img.shields.io/badge/Ollama-Free-blue)
-![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)
-
 ## ✨ Features
 
 - **🆓 100% Free**: Uses Ollama for local AI processing - no OpenAI or paid APIs
@@ -21,7 +16,7 @@ A **completely free** Retrieval-Augmented Generation (RAG) chatbot that answers 
 
 - **Frontend**: Next.js 15 + React + TypeScript + Tailwind CSS
 - **Backend**: Next.js API Routes
-- **AI Models**: 
+- **AI Models**:
   - **Chat**: Llama 3.1 (via Ollama)
   - **Embeddings**: nomic-embed-text (768 dimensions)
 - **Vector Database**: DataStax Astra DB
@@ -62,7 +57,7 @@ ollama pull llama3.1          # For chat (4.7 GB)
 ### 3. Clone & Install
 
 ```bash
-git clone https://github.com/yourusername/lotr-rag-chatbot.git
+git clone https://github.com/PuLeeNa/lotr-rag-chatbot.git
 cd lotr-rag-chatbot
 npm install
 ```
@@ -86,6 +81,7 @@ npm run seed
 ```
 
 **Note**: Seeding takes ~10-15 minutes as it:
+
 - Scrapes 10 LOTR-related Wikipedia pages
 - Splits content into chunks
 - Generates embeddings using Ollama
@@ -133,26 +129,28 @@ Try asking questions like:
 
 ## 🎯 Cost Comparison
 
-| Service | OpenAI Cost | Ollama Cost |
-|---------|-------------|-------------|
-| Embeddings | $0.02 per 1M tokens | **FREE** |
-| Chat | $0.50-$15 per 1M tokens | **FREE** |
-| Monthly (moderate use) | $50-200 | **$0** |
+| Service                | OpenAI Cost             | Ollama Cost |
+| ---------------------- | ----------------------- | ----------- |
+| Embeddings             | $0.02 per 1M tokens     | **FREE**    |
+| Chat                   | $0.50-$15 per 1M tokens | **FREE**    |
+| Monthly (moderate use) | $50-200                 | **$0**      |
 
 ## 🔄 Alternative Models
 
 You can easily switch models in the code:
 
 **Chat Models** (`/app/api/chat/route.ts`):
+
 ```typescript
 // Change line 42:
-model: "llama3.1"        // Default
-model: "mistral"         // Good balance
-model: "qwen2.5"         // Great reasoning
-model: "phi3"            // Lightweight
+model: "llama3.1"; // Default
+model: "mistral"; // Good balance
+model: "qwen2.5"; // Great reasoning
+model: "phi3"; // Lightweight
 ```
 
 **Embedding Models** (`/scripts/loadDb.ts`):
+
 ```typescript
 // Change line 52:
 model: "nomic-embed-text"    // Default (768d)
@@ -161,26 +159,29 @@ model: "all-minilm"          # Alternative (384d)
 
 ## 🛡️ Environment Variables
 
-| Variable | Description | Example |
-|----------|-------------|---------|
-| `ASTRA_DB_API_ENDPOINT` | Your Astra DB endpoint | `https://xyz.apps.astra.datastax.com` |
-| `ASTRA_DB_APPLICATION_TOKEN` | Database access token | `AstraCS:xyz...` |
-| `ASTRA_DB_NAMESPACE` | Database namespace | `default_keyspace` |
-| `ASTRA_DB_COLLECTION` | Collection name | `lotrgpt` |
+| Variable                     | Description            | Example                               |
+| ---------------------------- | ---------------------- | ------------------------------------- |
+| `ASTRA_DB_API_ENDPOINT`      | Your Astra DB endpoint | `https://xyz.apps.astra.datastax.com` |
+| `ASTRA_DB_APPLICATION_TOKEN` | Database access token  | `AstraCS:xyz...`                      |
+| `ASTRA_DB_NAMESPACE`         | Database namespace     | `default_keyspace`                    |
+| `ASTRA_DB_COLLECTION`        | Collection name        | `lotrgpt`                             |
 
 ## 🐛 Troubleshooting
 
 ### Ollama Issues
+
 - **"ollama not found"**: Install from [ollama.ai](https://ollama.ai)
 - **Model not pulled**: Run `ollama pull nomic-embed-text` and `ollama pull llama3.1`
 - **Connection refused**: Make sure Ollama is running (`ollama serve`)
 
 ### Database Issues
+
 - **Collection exists**: The script automatically handles existing collections
 - **Vector dimension mismatch**: Delete collection and re-run `npm run seed`
 - **Connection timeout**: Check your Astra DB credentials
 
 ### Performance
+
 - **Slow responses**: Try smaller models like `phi3` or `mistral`
 - **Out of memory**: Reduce chunk size in `loadDb.ts`
 
