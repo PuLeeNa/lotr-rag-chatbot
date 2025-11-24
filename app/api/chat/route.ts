@@ -76,7 +76,7 @@ Answer:`
 
     console.log(`⚡ Performance: Embedding=${embeddingTime}ms, Search=${searchTime}ms, Total=${totalTime}ms`)
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       message: response.message.content,
       sources: documents.length,
       performance: {
@@ -89,7 +89,7 @@ Answer:`
   } catch (error) {
     console.error("Error in chat route:", error)
     return NextResponse.json(
-      { error: "Internal server error" }, 
+      { error: "Internal server error" },
       { status: 500 }
     )
   }

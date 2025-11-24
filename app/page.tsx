@@ -72,8 +72,12 @@ export default function Home() {
         <div className="flex-grow p-6 overflow-y-auto scrollbar-thin scrollbar-thumb-purple-300 scrollbar-track-gray-100 bg-gradient-to-b from-white to-purple-50">
           {messages.length === 0 ? (
             <div className="flex flex-col justify-center items-center h-full text-gray-400 select-none">
-              <p className="text-xl font-semibold mb-2">Welcome to Middle-earth! 🏔️</p>
-              <p className="text-sm">Ask me anything about Tolkin's Universe!</p>
+              <p className="text-xl font-semibold mb-2">
+                Welcome to Middle-earth! 🏔️
+              </p>
+              <p className="text-sm">
+                Ask me anything about Tolkin's Universe!
+              </p>
             </div>
           ) : (
             messages.map((message, index) => (
@@ -93,7 +97,8 @@ export default function Home() {
                   <p className="leading-relaxed">{message.content}</p>
                   {message.sources && (
                     <p className="text-xs opacity-60 mt-1 font-mono">
-                      📚 Based on {message.sources} source{message.sources > 1 ? "s" : ""}
+                      📚 Based on {message.sources} source
+                      {message.sources > 1 ? "s" : ""}
                     </p>
                   )}
                   {message.performance && (
@@ -158,9 +163,7 @@ export default function Home() {
       </div>
 
       <div className="mt-8 text-center text-sm text-purple-700 select-none">
-        <p>
-          ✨ Powered by Ollama | 🤖 Llama 3.1 + Nomic Embeddings
-        </p>
+        <p>✨ Powered by Ollama | 🤖 Llama 3.1 + Nomic Embeddings</p>
         <p className="mt-1">Knowledge Base: Wikipedia articles</p>
       </div>
     </div>
