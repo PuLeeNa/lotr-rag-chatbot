@@ -16,51 +16,74 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Message is required" }, { status: 400 })
     }
 
+    const startTime = Date.now()
+
     // Generate embedding for the user's question
     const embedding = await ollama.embeddings({
       model: "nomic-embed-text",
       prompt: message
     })
 
-    // Search for similar documents in the vector database
-    const collection = await db.collection(ASTRA_DB_COLLECTION)
+    const embeddingTime = Date.now() - startTime
+
+    // Search for similar documents in the vector database (reduced to 3 for speed)
+    const collection = db.collection(ASTRA_DB_COLLECTION)
     const cursor = collection.find({}, {
       sort: {
         $vector: embedding.embedding,
       },
-      limit: 5,
+      limit: 3, // Reduced from 5 to 3
+      projection: {
+        text: 1,
+        _id: 0
+      }
     })
 
     const documents = await cursor.toArray()
+    const searchTime = Date.now() - startTime - embeddingTime
 
-    // Prepare context from retrieved documents
+    // Prepare context from retrieved documents (limit to 2000 chars)
     const context = documents
       .map((doc: any) => doc.text)
       .join("\n\n")
+      .substring(0, 2000) // Limit context size
 
     // Generate response using Ollama
     const prompt = `Context: ${context}
 
 Question: ${message}
 
-Please provide a helpful answer based on the context above. If the answer is not in the context, say so politely.
+Provide a concise answer based on the context. If not in context, say so briefly.
 
 Answer:`
 
     const response = await ollama.chat({
-      model: "llama3.1", 
+      model: "llama3.1", // For faster responses, use "phi3:mini" or "qwen2.5:7b"
       messages: [
         {
           role: "user",
           content: prompt
         }
       ],
-      stream: false
+      stream: false,
+      options: {
+        num_predict: 256, // Limit response length
+        temperature: 0.7,
+      }
     })
+
+    const totalTime = Date.now() - startTime
+
+    console.log(`⚡ Performance: Embedding=${embeddingTime}ms, Search=${searchTime}ms, Total=${totalTime}ms`)
 
     return NextResponse.json({ 
       message: response.message.content,
-      sources: documents.length 
+      sources: documents.length,
+      performance: {
+        embeddingTime,
+        searchTime,
+        totalTime
+      }
     })
 
   } catch (error) {

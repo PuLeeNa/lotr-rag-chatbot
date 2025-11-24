@@ -6,6 +6,11 @@ interface Message {
   role: "user" | "assistant";
   content: string;
   sources?: number;
+  performance?: {
+    embeddingTime: number;
+    searchTime: number;
+    totalTime: number;
+  };
 }
 
 export default function Home() {
@@ -40,6 +45,7 @@ export default function Home() {
           role: "assistant",
           content: data.message,
           sources: data.sources,
+          performance: data.performance,
         },
       ]);
     } catch (error) {
@@ -88,6 +94,11 @@ export default function Home() {
                   {message.sources && (
                     <p className="text-xs opacity-60 mt-1 font-mono">
                       📚 Based on {message.sources} source{message.sources > 1 ? "s" : ""}
+                    </p>
+                  )}
+                  {message.performance && (
+                    <p className="text-xs opacity-50 mt-1 font-mono">
+                      ⚡ {message.performance.totalTime}ms
                     </p>
                   )}
                 </div>
