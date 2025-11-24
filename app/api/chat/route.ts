@@ -48,7 +48,7 @@ Please provide a helpful answer based on the context above. If the answer is not
 Answer:`
 
     const response = await ollama.chat({
-      model: "llama3.1", // You can change this to other models like qwen2.5, mistral, etc.
+      model: "llama3.1", 
       messages: [
         {
           role: "user",
