@@ -58,7 +58,7 @@ Provide a concise answer based on the context. If not in context, say so briefly
 Answer:`
 
     const response = await ollama.chat({
-      model: "llama3.1", // For faster responses, use "phi3:mini" or "qwen2.5:7b"
+      model: "phi3:mini", // For faster responses, use "phi3:mini" or "qwen2.5:7b"
       messages: [
         {
           role: "user",
