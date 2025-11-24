@@ -13,6 +13,7 @@
     "@datastax/astra-db-ts": "^1.5.0",
     "@fontsource/inter": "^5.2.8",
     "@langchain/community": "^0.3.56",
+    "@types/react-syntax-highlighter": "^15.5.13",
     "dotenv": "^16.4.5",
     "framer-motion": "^12.23.21",
     "langchain": "^0.3.34",
@@ -23,6 +24,8 @@
     "puppeteer": "^24.22.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
+    "react-markdown": "^10.1.0",
+    "react-syntax-highlighter": "^16.1.0",
     "ts-node": "^10.9.2"
   },
   "devDependencies": {

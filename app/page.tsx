@@ -95,7 +95,7 @@ export default function Home() {
                   }`}
                 >
                   <p className="leading-relaxed">{message.content}</p>
-                  {message.sources && (
+                  {/* {message.sources && (
                     <p className="text-xs opacity-60 mt-1 font-mono">
                       📚 Based on {message.sources} source
                       {message.sources > 1 ? "s" : ""}
@@ -105,7 +105,7 @@ export default function Home() {
                     <p className="text-xs opacity-50 mt-1 font-mono">
                       ⚡ {message.performance.totalTime}ms
                     </p>
-                  )}
+                  )} */}
                 </div>
               </div>
             ))
@@ -163,7 +163,7 @@ export default function Home() {
       </div>
 
       <div className="mt-8 text-center text-sm text-purple-700 select-none">
-        <p>✨ Powered by Ollama | 🤖 Llama 3.1 + Nomic Embeddings</p>
+        <p>✨ Powered by Ollama | 🤖 phi3:mini + Nomic Embeddings</p>
         <p className="mt-1">Knowledge Base: Wikipedia articles</p>
       </div>
     </div>

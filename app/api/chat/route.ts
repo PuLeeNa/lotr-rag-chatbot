@@ -49,26 +49,45 @@ export async function POST(request: NextRequest) {
       .substring(0, 2000) // Limit context size
 
     // Generate response using Ollama
-    const prompt = `Context: ${context}
+    const systemPrompt = `You are a friendly and knowledgeable assistant specializing in The Lord of the Rings universe. 
 
-Question: ${message}
+Your guidelines:
+- Respond naturally to greetings, thanks, and casual conversation
+- When asked about LOTR topics, use the provided context to give accurate, detailed answers
+- If the context doesn't contain the answer, use your general knowledge about LOTR but acknowledge when you're unsure
+- Be conversational, warm, and engaging like a real person
+- Keep responses concise but informative (2-4 paragraphs max)
+- Show enthusiasm about Middle-earth and Tolkien's work
+- Do not mention I know more than wikipedia `
 
-Provide a concise answer based on the context. If not in context, say so briefly.
+    const userPrompt = context.trim()
+      ? `Here's some relevant information from my knowledge base:
 
-Answer:`
+${context}
+
+User's message: ${message}
+
+Please respond naturally and helpfully.`
+      : `User's message: ${message}
+
+Please respond naturally and helpfully.`
 
     const response = await ollama.chat({
-      model: "phi3:mini", // For faster responses, use "phi3:mini" or "qwen2.5:7b"
+      model: "phi3:mini",
       messages: [
         {
+          role: "system",
+          content: systemPrompt
+        },
+        {
           role: "user",
-          content: prompt
+          content: userPrompt
         }
       ],
       stream: false,
       options: {
         num_predict: 256, // Limit response length
-        temperature: 0.7,
+        temperature: 0.8, // Slightly higher for more natural conversation
       }
     })
 
